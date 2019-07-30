@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1>输入密钥</h1>
+  {% if error %}
+    <p class=error><strong>错误:</strong> {{ error }}
+  {% endif %}
+  <form method=post>
+    <dl>
+      <dt>用户名:
+      <dd><input type=text name=username value="{{
+          request.form.username }}">
+      <dt>密钥:
+      <dd><input type=password name=password>
+    </dl>
+    <p><input type=submit value=Login></p>
+  </form>
+{% endblock %}
