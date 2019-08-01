@@ -27,5 +27,5 @@ pywin32-ctypes==0.2.0
 removebg==0.3
 requests==2.21.0
 soupsieve==1.9
-urllib3==1.24.1
+urllib3==1.24.2
 Werkzeug==0.14.1
