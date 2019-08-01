@@ -1,0 +1,109 @@
+.vip-push-container {
+    background-color: #EFEFEF;
+}
+
+.vip-push {
+    position: relative;
+    margin: 5px;
+    padding-top: 30px;
+    overflow: hidden;
+}
+
+.vip-push-footer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 28px;
+    line-height: 28px;
+    width: 100%;
+    text-align: center;
+}
+
+.vip-push-footer span {
+    min-width: 50px;
+    padding: 5px 8px;
+    margin: 0 6px;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.vip-push-footer span.active {
+    border-top: 1px solid black;
+    background: white;
+}
+
+.vip-push-list {
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.vip-push-list:hover {
+    border-bottom: 2px solid red;
+}
+
+.vip-push-list:hover .vip-push-list-price {
+    display: block;
+}
+
+.vip-push-list img {
+    width: 100%;
+}
+
+.vip-push-list-price {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1px 5px;
+    background-color: white;
+    font-size: 14px;
+    color: red;
+    display: none;
+}
+
+.vip-push-list-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-block;
+    width: 97%;
+    height: 30px;
+    line-height: 15px;
+    overflow: hidden;
+    padding: 0 1.5%;
+    font-size: 13px;
+    background-color: white;
+    opacity: .8;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: black;
+}
+
+.vip-push-type2 {
+    width: 100% !important;
+    overflow: hidden;
+}
+
+.vip-push-type2 .vip-push-list, .vip-push-type2 .vip-push-list img {
+
+}
+
+.vip-push-type2 .vip-push-list .vip-push-list-price, .vip-push-type2 .vip-push-list .vip-push-list-body {
+    display: none;
+}
+
+.vip-push-type2 .vip-push-list:hover {
+    border: 2px solid red;
+}
+
+.vip-push-container .layui-layer-title, .vip-push .layui-carousel.push-carousel div {
+    background-color: white;
+}
+
+.vip-push .layui-carousel.push-carousel img {
+    max-width: 100%;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}

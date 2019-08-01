@@ -1,6 +1,147 @@
-{% extends "base.html" %}
-{% block body %}
-  <h1>欢迎你使用RemoveBG v0.1</h1>
-    <p><a href="{{ url_for('login') }}">有密钥></a></p>
-    <p><a href="{{ url_for('login') }}">使用体验版</a></p>
-{% endblock %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Home</title>
+<link href="static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="static/js/jquery-1.11.1.min.js"></script>
+<!-- Custom Theme files -->
+<link href="static/css/style.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
+<link rel="stylesheet" href="static/css/app.css"/>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--menu-->
+<link href="static/css/mmenu.css" rel="stylesheet" type="text/css" media="all" />
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="static/js/jquery.mmenu.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.mixitup.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('nav#menu').mmenu();
+        $("#back-to-top").click(function(){
+            //$('body,html').animate({scrollTop:0},1000);
+            if ($('html').scrollTop()) {
+                $('html').animate({ scrollTop: 0 }, 1000);
+                $("#testList").click();
+                return false;
+            }
+            $('body').animate({ scrollTop: 0 }, 1000);
+            return false;
+        });
+    });
+    jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){
+            event.preventDefault();
+            $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+    });
+</script>
+<script type="text/javascript" src="static/js/move-top.js"></script>
+<script type="text/javascript" src="static/js/easing.js"></script>
+</head>
+<body>
+<div class="header">
+  <div class="container">
+     <div id="page">
+		<div id="header_nav">
+			<a href="#menu"></a>
+		</div>
+	    <nav id="menu">
+			<ul>
+				<li class="Selected"><a href="{{ url_for("index") }}">首页</a></li>
+				<li><a href="#contact" class="scroll">简介</a></li>
+				<li><a href="#contact" class="scroll">密钥申请</a></li>
+			</ul>
+		</nav>
+	   </div>
+	   <h1>欢迎你使用RemoveBG v0.1</h1>
+	   <s> </s>
+	   <br/>	   <br/>	   <br/>
+	   <div class="container">
+{#			<a href="{{ url_for('login') }}" class="fa-btn btn-1" id="test2">测试链接1</a>#}
+			<button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#myModal">上传图片</button>
+       </div>
+	   <div class="header_arrow">
+	      <a href="#arrow" class="scroll"><span> </span></a>
+	   </div>
+</div>
+</div>
+<div class="introduct" id="arrow">
+	<div class="container">
+		<h2>RemoveBG是什么？</h2>
+		<span> </span>
+		<p>利用RemoveBG的人工智能算法帮您快速剔除所有有前景图片的背景，拥有堪比专业抠图大师的水平甚至超越人工处理图片的水准，整个过程仅需数秒的时间，领略AI魅力！</p>
+	</div>
+</div>
+<div class="create">
+	<div class="container">
+		<a href="#" id="back-to-top" class="fa-btn btn-1 btn-1e">我要上传</a>
+		<button type="button" class="layui-btn " style="display:none;" id="testListAction">开始上传</button>
+	</div>
+</div>
+
+<div class="contact" id="contact">
+    <div class="footer">
+        <div class="container">
+            <p class="copy">Copyright &copy; <a href="#" target="_blank" title="yoJo">yoJo</a>.Company name All rights reserved.</p>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                /*
+                var defaults = {
+                    containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                };
+                */
+
+                $().UItoTop({ easingType: 'easeOutQuart' });
+
+            });
+        </script>
+            <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    </div>
+</div>
+
+<!-- 模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    选择您需要更换背景的图片
+                </h4>
+            </div>
+            <form action="{{ url_for("upload_file") }}" method=post enctype=multipart/form-data>
+                <div class="modal-body">
+                    {% for message in get_flashed_messages() %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                    <input type=file name=file>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" onclick="$('#loadingModal').modal('show');" class="btn btn-primary">上传</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="loadingModal">
+    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px">
+        <div class="progress progress-striped active" style="margin-bottom: 0;">
+            <div class="progress-bar" style="width: 100%;"></div>
+        </div>
+        <h5 style="color:black"> <strong>正在处理...图片处理根据像素大小需花费5-30秒，请稍等！</strong> </h5>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+.vip-nav
+, .vip-aside
+, .vip-aside:before
+, .vip-aside:after {
+    background-color: #009688;
+}
+.vip-nav ul li>i {
+    color: white !important;
+}
+.vip-nav ul li>i:hover, .vip-nav ul li>i.active {
+    border-left: 1px solid #FFF;
+}
+.vip-aside ul hr {
+    background-color: #FFF !important;
+}
