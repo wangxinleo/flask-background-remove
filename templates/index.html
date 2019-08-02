@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Home</title>
+<title>RemoveBG</title>
 <link href="static/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="static/js/jquery-1.11.1.min.js"></script>
 <!-- Custom Theme files -->
 <link href="static/css/style.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="static/layui/css/layui.css"  media="all">
 <link rel="stylesheet" href="static/css/app.css"/>
 <!-- Custom Theme files -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +17,12 @@
 <script src="static/js/jquery.mmenu.min.js"></script>
 <script type="text/javascript" src="static/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="static/js/jquery.mixitup.min.js"></script>
+<link rel="stylesheet" href="static/css/fileinput/fileinput.css"/>
+<script type="text/javascript" src="static/js/fileinput/fileinput.js"></script>
+<script type="text/javascript" src="static/js/fileinput/locales/zh.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/piexif.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/purify.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/sortable.js"></script>
 <script type="text/javascript">
     $(function () {
         $('nav#menu').mmenu();
@@ -124,7 +129,7 @@
                     {% for message in get_flashed_messages() %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                    <input type=file name=file>
+                    <input id="f_upload" type="file" class="file" name="file"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

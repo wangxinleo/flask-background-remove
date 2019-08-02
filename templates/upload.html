@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>RemoveBG v0.1</title>
-{#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='hello.css') }}">#}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='hello.css') }}">
 </head>
 <body>
     {% for message in get_flashed_messages() %}
@@ -15,5 +15,6 @@
       <p><input type=file name=file>
          <input type=submit value="上传">
     </form>
+{#    <A href="{{ url_for('static', filename='zipFile/xuemin.zip') }}">111</A>#}
 </body>
 </html>

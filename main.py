@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, abort, redirect, url_for, session
-import os
+import os,zipfile
 from werkzeug.utils import secure_filename
 from removebg import RemoveBg
 import PIL.Image as Image
 import shutil
 
+
 APIKEY = ""
 UPLOAD_FOLDER = '%s\\uploadFile' %os.getcwd()  # 上传路径
-DOWNLOAD_FOLDER = '%s\\downloadFile' %os.getcwd() # 下载路径
+DOWNLOAD_FOLDER = '%s\\downloadFile' %os.getcwd()  # 下载路径
+ZIP_FOLDER = '%s\\static\\zipFile' %os.getcwd()  # 压缩路径
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])  # 允许上传的文件类型
 
 
@@ -18,7 +20,6 @@ app.secret_key = '1111111111'  # os.urandom(16)
 
 def allowed_file(filename):  # 验证上传文件是否符合要求
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 
 
 @app.route('/')
@@ -82,15 +83,23 @@ def upload_file():
                     p = Image.new('RGBA', im.size, (255,0,0))
                     p.paste(im, (0, 0, x, y), im)
                     p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_red.png'))
+
+                    with zipfile.ZipFile("%s\%s" % (ZIP_FOLDER, tempPic + '.zip'), mode="w") as f:
+                        for userfile in os.listdir(DOWNLOAD_FOLDER):
+                            if userfile.rsplit('.', 1)[1] == 'png':
+                                f.write("%s\%s" % (DOWNLOAD_FOLDER, userfile), userfile)
+                                os.remove("%s\%s" % (DOWNLOAD_FOLDER, userfile))
+
                 except FileNotFoundError:
                     return redirect(url_for('index'))
-            return redirect(url_for('index'))
+            os.remove("%s\%s" % (UPLOAD_FOLDER, pic))
+            return redirect(url_for('static', filename="zipFile/{}".format(tempPic + ".zip")))
         else:
             return '非法的文件格式或操作！<a href="/upload">返回</a> '
     else:
         try:
-            name = session['username']
-            return render_template('upload.html', name=name)
+            # name = session['username']
+            return render_template('upload.html')
         except KeyError:
             abort(401)
 
