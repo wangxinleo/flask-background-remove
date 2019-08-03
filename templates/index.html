@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>RemoveBG</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RemoveBG</title>
 <link href="static/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link href="static/css/style.css" rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="static/css/app.css"/>
@@ -146,7 +146,7 @@ $('#fupload').on("fileuploaded", function (event, data, previewId, index){
             $('#loadingModal').modal();
             fileId = data.response.Data[0].fileId
             filename = data.response.Data[0].filename
-            window.open("/drawing/"+filename,"_self")
+            window.open("/drawing/"+fileId+"/"+filename,"_self")
         }
 });
 

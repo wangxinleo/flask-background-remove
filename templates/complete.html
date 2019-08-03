@@ -1,17 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>RemoveBG v0.1</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='hello.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RemoveBG</title>
+<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+{#<link href="/static/css/style.css" rel='stylesheet' type='text/css' />#}
+{#<link rel="stylesheet" href="/static/css/app.css"/>#}
+<link href="/static/css/mmenu.css" rel="stylesheet" type="text/css" media="all" />
+{#<link rel="stylesheet" href="/static/css/fileinput/fileinput.css"/>#}
+<link href="/static/css/baguetteBox/baguetteBox.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/baguetteBox/thumbnail-gallery.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/baguetteBox/htmleaf-demo.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<p style="">欢迎您，{{ name }}   <a href="/logout">退出</a></p>
-    <h1>已完成</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value="上传">
-    </form>
-{#    <A href="{{ url_for('static', filename='zipFile/xuemin.zip') }}">111</A>#}
+<div class="header">
+    <div id="page">
+        <div id="header_nav">
+            <a href="#menu"></a>
+        </div>
+        <nav id="menu" style="background-color: #333">
+            <ul>
+                <li><a href="{{ url_for("index") }}">返回首页</a></li>
+                <li class="Selected"><a href="#download" class="scroll">图像下载</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="htmleaf-container">
+    		<header class="htmleaf-header">
+			<h1>您的图片已就绪，可点击下载 <span>如果您觉得我好用的话，记得分享给您的好朋友们哦~</span></h1>
+{#			<div>#}
+{#				<a class="glyphicon glyphicon-star" href="#" title="yoJo博客" target="_blank">yoJo博客 </a>#}
+{#				<a class="glyphicon glyphicon-star" href="#" title="Github" target="_blank">Gtihub </a>#}
+{#			</div>#}
+{#			<div class="htmleaf-demo center">#}
+{#			  <a href="index.html">打包下载</a>#}
+{#			</div>#}
+		</header>
+		<div id="imgHtml" class="container gallery-container">
+
+		    <div class="tz-gallery">
+
+		        <div class="row">
+
+		            <div class="col-sm-6 col-md-4">
+		                <div class="thumbnail">
+		                    <a class="lightbox" href="/static/images/p5.jpg">
+		                        <img src="/static/images/p5.jpg" alt="Park">
+		                    </a>
+		                    <div class="caption">
+		                        <h3>Thumbnail label</h3>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <div class="thumbnail">
+		                    <a class="lightbox" href="/static/images/p5.jpg">
+		                        <img src="/static/images/p5.jpg" alt="Bridge">
+		                    </a>
+		                    <div class="caption">
+		                        <h3>Thumbnail label</h3>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <div class="thumbnail">
+		                    <a class="lightbox" href="/static/images/p5.jpg">
+		                        <img src="/static/images/p5.jpg" alt="Tunnel">
+		                    </a>
+		                    <div class="caption">
+		                        <h3>Thumbnail label</h3>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-sm-6 col-md-4">
+		                <div class="thumbnail">
+		                    <a class="lightbox" href="/static/images/p5.jpg">
+		                        <img src="/static/images/p5.jpg" alt="Coast">
+		                    </a>
+		                    <div class="caption">
+		                        <h3>Thumbnail label</h3>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+
+		    </div>
+
+		</div>
+    </div>
+</div>
+
+
+<div class="contact" id="contact">
+    <div class="footer">
+        <div class="container">
+            <p class="copy">Copyright &copy; <a href="#" target="_blank" title="yoJo">yoJo</a>.Company name All rights reserved.</p>
+        </div>
+            <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    </div>
+</div>
+
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.mmenu.min.js"></script>
+{#<script type="text/javascript" src="/static/js/jquery.easing.min.js"></script>#}
+{#<script type="text/javascript" src="/static/js/jquery.mixitup.min.js"></script>#}
+<script type="text/javascript" src="/static/js/move-top.js"></script>
+<script type="text/javascript" src="/static/js/easing.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+<script type="text/javascript" src="/static/js/baguetteBox.min.js"></script>
+<script type="text/javascript">
+    baguetteBox.run('.tz-gallery');
+    showImg();
+
+
+function showImg(){
+    var imgHtml = '<div class="tz-gallery"><div class="row">';
+    var temp = window.location.href;
+    var tempArry = temp.split('/');
+    tempArry = tempArry.slice(-2);
+    var url = "/complete/"+tempArry[0];
+
+    $.ajax({
+        type:"GET",
+        url:url,
+        dateType:"json",
+        success:function (data) {
+           data =  JSON.parse(data);
+           if (data.status == 200){
+               //if(true) return;
+               for(var i=0; i<data.Data.length ; i++){
+                   filename = data.Data[i].filename;
+                   filepath = data.Data[i].filepath;
+
+                   imgHtml += '<div class="col-sm-6 col-md-4"><div class="thumbnail"><a class="lightbox" href="'+filepath+'"><img src="'+filepath+'" alt="Park"></a><div class="caption"><h3>'+filename+'</h3></div></div></div>';
+               }
+               imgHtml += '</div></div>';
+               $('#imgHtml').html(imgHtml);
+                baguetteBox.run('.tz-gallery');
+           }else{
+               alert('数据存取错误');
+           }
+        },
+        error:function (e) {
+        }
+    });
+}
+</script>
 </body>
 </html>
