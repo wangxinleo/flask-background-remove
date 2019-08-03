@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, abort, redirect, url_for, session
-import os,zipfile
+import os,zipfile,random
 from werkzeug.utils import secure_filename
 from removebg import RemoveBg
 import PIL.Image as Image
@@ -49,60 +49,75 @@ def logout():
 @app.route('/upload', methods=['POST', 'GET'])
 def upload_file():
     if request.method == 'POST':
+        fileId = random.randint(100000, 999999);
         file = request.files['file']  # 获取上传的文件
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)  # 获取上传的文件名
+            filename = str(fileId)+secure_filename(file.filename)  # 获取上传的文件名
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # 保存文件
-            # flash('{} 上传成功'.format(filename))
-            # return render_template('upload.html')  # 返回保存结果
-            rmbg = RemoveBg(APIKEY, "error.log")
-            for pic in os.listdir(UPLOAD_FOLDER):
-                tempPic = pic.rsplit('.', 1)[0]
-                url = "%s\%s" % (UPLOAD_FOLDER, pic)
-                rmbg.remove_background_from_img_file(url)
 
-                oldImg = url + "_no_bg.png"
-                newImg = "%s\%s" % (DOWNLOAD_FOLDER, tempPic+".png")
-                try:
-                    shutil.move(oldImg, newImg)
-
-                    im = Image.open(newImg)
-                    x, y = im.size
-                    p = Image.new('RGBA', im.size, (255,255,255))
-                    p.paste(im, (0, 0, x, y), im)
-                    p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_white.png'))
-
-                    im = Image.open(newImg)
-                    x, y = im.size
-                    p = Image.new('RGBA', im.size, (0,0,255))
-                    p.paste(im, (0, 0, x, y), im)
-                    p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_blue.png'))
-
-                    im = Image.open(newImg)
-                    x, y = im.size
-                    p = Image.new('RGBA', im.size, (255,0,0))
-                    p.paste(im, (0, 0, x, y), im)
-                    p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_red.png'))
-
-                    with zipfile.ZipFile("%s\%s" % (ZIP_FOLDER, tempPic + '.zip'), mode="w") as f:
-                        for userfile in os.listdir(DOWNLOAD_FOLDER):
-                            if userfile.rsplit('.', 1)[1] == 'png':
-                                f.write("%s\%s" % (DOWNLOAD_FOLDER, userfile), userfile)
-                                os.remove("%s\%s" % (DOWNLOAD_FOLDER, userfile))
-
-                except FileNotFoundError:
-                    return redirect(url_for('index'))
-            os.remove("%s\%s" % (UPLOAD_FOLDER, pic))
-            return redirect(url_for('static', filename="zipFile/{}".format(tempPic + ".zip")))
+            return '{"Code":0,"Message":"保存数据成功","Data":[{"fileId":"'+str(fileId)+'","filename":"'+filename+'"}]}'
         else:
-            return '非法的文件格式或操作！<a href="/upload">返回</a> '
+            return '系统检测到非法的文件格式或操作！<a href="/">返回</a> '
     else:
         try:
-            # name = session['username']
-            return render_template('upload.html')
+            name = session['username']
+            return render_template('index.html')
         except KeyError:
             abort(401)
 
+
+@app.route('/drawing/<filename>')
+def drawing(filename):
+    rmbg = RemoveBg(APIKEY, "error.log")
+    for pic in os.listdir(UPLOAD_FOLDER):
+        if pic == filename:
+            # tempPic = pic.rsplit('.', 1)[0]
+            # url = "%s\%s" % (UPLOAD_FOLDER, filename)
+            # rmbg.remove_background_from_img_file(url)
+            #
+            # oldImg = url + "_no_bg.png"
+            # newImg = "%s\%s" % (DOWNLOAD_FOLDER, tempPic + ".png")
+            try:
+                # shutil.move(oldImg, newImg)
+                # im = Image.open(newImg)
+                # x, y = im.size
+                # p = Image.new('RGBA', im.size, (255, 255, 255))
+                # p.paste(im, (0, 0, x, y), im)
+                # p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_white.png'))
+                #
+                # im = Image.open(newImg)
+                # x, y = im.size
+                # p = Image.new('RGBA', im.size, (0, 0, 255))
+                # p.paste(im, (0, 0, x, y), im)
+                # p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_blue.png'))
+                #
+                # im = Image.open(newImg)
+                # x, y = im.size
+                # p = Image.new('RGBA', im.size, (255, 0, 0))
+                # p.paste(im, (0, 0, x, y), im)
+                # p.save("%s\%s" % (DOWNLOAD_FOLDER, tempPic + '_red.png'))
+                #
+                # with zipfile.ZipFile("%s\%s" % (ZIP_FOLDER, tempPic + '.zip'), mode="w") as f:
+                #     for userfile in os.listdir(DOWNLOAD_FOLDER):
+                #         if userfile.rsplit('.', 1)[1] == 'png':
+                #             f.write("%s\%s" % (DOWNLOAD_FOLDER, userfile), userfile)
+                #             os.remove("%s\%s" % (DOWNLOAD_FOLDER, userfile))
+
+                # return redirect(url_for('static', filename="zipFile/{}".format(tempPic + ".zip")))
+
+                return redirect(url_for('complete_file', filename=filename))
+            except FileNotFoundError:
+                return '你的图片好像没有前景哦~AI没办法识别出来你图片突出的主体呢~用其他的照片试试吧~'
+        else:
+            continue
+        return '系统检测到非法的文件格式或操作！<a href="/">返回</a>'
+
+
+@app.route('/complete/<filename>')
+def complete_file(filename):
+    # os.remove("%s\%s" % (UPLOAD_FOLDER, filename))
+
+    return filename
 
 @app.errorhandler(401)
 def page_not_found(error):

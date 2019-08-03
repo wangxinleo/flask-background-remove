@@ -5352,7 +5352,7 @@
 
     //noinspection HtmlUnknownAttribute
     $.fn.fileinput.defaults = {
-        language: 'en',
+        language: 'zh',
         showCaption: true,
         showBrowse: true,
         showPreview: true,

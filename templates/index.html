@@ -2,50 +2,12 @@
 <html>
 <head>
 <title>RemoveBG</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="static/css/bootstrap.css" rel='stylesheet' type='text/css' />
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="static/js/jquery-1.11.1.min.js"></script>
-<!-- Custom Theme files -->
 <link href="static/css/style.css" rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="static/css/app.css"/>
-<!-- Custom Theme files -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--menu-->
 <link href="static/css/mmenu.css" rel="stylesheet" type="text/css" media="all" />
-<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="static/js/jquery.mmenu.min.js"></script>
-<script type="text/javascript" src="static/js/jquery.easing.min.js"></script>
-<script type="text/javascript" src="static/js/jquery.mixitup.min.js"></script>
 <link rel="stylesheet" href="static/css/fileinput/fileinput.css"/>
-<script type="text/javascript" src="static/js/fileinput/fileinput.js"></script>
-<script type="text/javascript" src="static/js/fileinput/locales/zh.js"></script>
-<script type="text/javascript" src="static/js/fileinput/plugins/piexif.js"></script>
-<script type="text/javascript" src="static/js/fileinput/plugins/purify.js"></script>
-<script type="text/javascript" src="static/js/fileinput/plugins/sortable.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $('nav#menu').mmenu();
-        $("#back-to-top").click(function(){
-            //$('body,html').animate({scrollTop:0},1000);
-            if ($('html').scrollTop()) {
-                $('html').animate({ scrollTop: 0 }, 1000);
-                $("#testList").click();
-                return false;
-            }
-            $('body').animate({ scrollTop: 0 }, 1000);
-            return false;
-        });
-    });
-    jQuery(document).ready(function($) {
-        $(".scroll").click(function(event){
-            event.preventDefault();
-            $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-        });
-    });
-</script>
-<script type="text/javascript" src="static/js/move-top.js"></script>
-<script type="text/javascript" src="static/js/easing.js"></script>
 </head>
 <body>
 <div class="header">
@@ -93,28 +55,13 @@
         <div class="container">
             <p class="copy">Copyright &copy; <a href="#" target="_blank" title="yoJo">yoJo</a>.Company name All rights reserved.</p>
         </div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                /*
-                var defaults = {
-                    containerID: 'toTop', // fading element id
-                    containerHoverID: 'toTopHover', // fading element hover id
-                    scrollSpeed: 1200,
-                    easingType: 'linear'
-                };
-                */
-
-                $().UItoTop({ easingType: 'easeOutQuart' });
-
-            });
-        </script>
             <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     </div>
 </div>
 
 <!-- 模态框 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -124,29 +71,91 @@
                     选择您需要更换背景的图片
                 </h4>
             </div>
-            <form action="{{ url_for("upload_file") }}" method=post enctype=multipart/form-data>
-                <div class="modal-body">
-                    {% for message in get_flashed_messages() %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                    <input id="f_upload" type="file" class="file" name="file"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" onclick="$('#loadingModal').modal('show');" class="btn btn-primary">上传</button>
-                </div>
-            </form>
+{#            <form action="{{ url_for("upload_file") }}" method=post enctype=multipart/form-data>#}
+{#                <div class="modal-body">#}
+{#                    <ul>#}
+{#                        <li>目前上传的图片仅支持jpg/png/jpeg等三种格式</li>#}
+{#                    </ul>#}
+{#                    <input id="fupload" type="file" class="file" name="file"/>#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>#}
+{#                    <button type="submit" onclick="$('#loadingModal').modal('show');" class="btn btn-primary">上传</button>#}
+{#                </div>#}
+{#            </form>#}
+            <div class="modal-body">
+                <ul>
+                    <li>目前上传的图片仅支持jpg/png/jpeg等三种格式</li>
+                </ul>
+                <input id="fupload" type="file" class="file" name="file"/>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 
-<div class="modal fade" id="loadingModal">
-    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px">
+<div class="modal fade" id="loadingModal" style="background-color: rgba(0,0,0,0.6)">
+    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px;">
         <div class="progress progress-striped active" style="margin-bottom: 0;">
             <div class="progress-bar" style="width: 100%;"></div>
         </div>
-        <h5 style="color:black"> <strong>正在处理...图片处理根据像素大小需花费5-30秒，请稍等！</strong> </h5>
+        <h5 style="color:white"> <strong>文件上传成功！正在处理...图片处理根据像素大小需花费5-10秒，请稍候...</strong> </h5>
     </div>
 </div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="static/js/jquery-1.11.1.min.js"></script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="static/js/jquery.mmenu.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.mixitup.min.js"></script>
+<script type="text/javascript" src="static/js/move-top.js"></script>
+<script type="text/javascript" src="static/js/easing.js"></script>
+<script type="text/javascript" src="static/js/fileinput/fileinput.js"></script>
+<script type="text/javascript" src="static/js/fileinput/locales/zh.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/piexif.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/purify.js"></script>
+<script type="text/javascript" src="static/js/fileinput/plugins/sortable.js"></script>
+<script type="text/javascript" src="static/js/index.js"></script>
+<script type="text/javascript">
+$("#fupload").fileinput({
+    language: 'zh', //设置语言
+    uploadUrl:"/upload", //上传的地址
+    allowedFileExtensions: ['jpg', 'jpeg', 'png'],//接收的文件后缀
+    uploadAsync: true, //默认异步上传
+    showUpload:true, //是否显示上传按钮
+    showRemove :true, //显示移除按钮
+    showPreview :true, //是否显示预览
+    showCaption:true,//是否显示标题
+    browseClass:"btn btn-primary", //按钮样式
+    dropZoneEnabled: true,//是否显示拖拽区域
+    maxFileSize:1024,
+    maxFileCount:0, //表示允许同时上传的最大文件个数
+    enctype:'multipart/form-data',
+    dropZoneTitle:'拖拽文件到这里 … 暂不支持多文件同时上传',
+    validateInitialCount:false,
+    previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+});
+$("#fileInput").fileinput("upload");
+
+$('#fupload').on("fileuploaded", function (event, data, previewId, index){
+    if(data.response)
+        {
+            $('#loadingModal').modal();
+            fileId = data.response.Data[0].fileId
+            filename = data.response.Data[0].filename
+            window.open("/drawing/"+filename,"_self")
+        }
+});
+
+//异步上传失败
+$('#fupload').on('fileerror', function(event, data, msg) {
+    alert("失败了");
+});
+
+
+</script>
 </body>
 </html>
