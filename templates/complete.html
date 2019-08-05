@@ -49,6 +49,8 @@
 		                    </a>
 		                    <div class="caption">
 		                        <h3>Thumbnail label</h3>
+                                <a onclick="oDownLoad('/static/images/p5.jpg')" style="color: black"><i class="glyphicon glyphicon-save"></i>下载</a>
+
 		                    </div>
 		                </div>
 		            </div>
@@ -116,7 +118,7 @@
 <script type="text/javascript" src="/static/js/baguetteBox.min.js"></script>
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
-    showImg();
+    //showImg();
 
 
 function showImg(){
@@ -151,6 +153,57 @@ function showImg(){
         }
     });
 }
+
+
+//①判断浏览器类型
+function myBrowser() {
+	var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	var isOpera = userAgent.indexOf("Opera") > -1;
+	if(isOpera) {
+		return "Opera"
+	}; //判断是否Opera浏览器
+	if(userAgent.indexOf("Firefox") > -1) {
+		return "FF";
+	} //判断是否Firefox浏览器
+	if(userAgent.indexOf("Chrome") > -1) {
+		return "Chrome";
+	}
+	if(userAgent.indexOf("Safari") > -1) {
+		return "Safari";
+	} //判断是否Safari浏览器
+	if(userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+		return "IE";
+	}; //判断是否IE浏览器
+	if(userAgent.indexOf("Trident") > -1) {
+		return "Edge";
+	} //判断是否Edge浏览器
+}
+
+//②IE浏览器图片保存（IE其实用的就是window.open)
+function SaveAs5(imgURL) {
+	var oPop = window.open(imgURL, "", "width=1, height=1, top=5000, left=5000");
+	for(; oPop.document.readyState != "complete";) {
+		if(oPop.document.readyState == "complete") break;
+	}
+	oPop.document.execCommand("SaveAs");
+	oPop.close();
+}
+
+//③下载函数（区分IE和非IE部分）
+
+function oDownLoad(url) {
+	if(myBrowser() === "IE" || myBrowser() === "Edge") {
+		//IE （浏览器）
+		SaveAs5(url);
+		console.log(1)
+	} else {
+		//!IE (非IE)
+		odownLoad.href = url;
+		odownLoad.download = "";
+	}
+
+}
+
 </script>
 </body>
 </html>
