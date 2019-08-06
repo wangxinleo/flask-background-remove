@@ -1,4 +1,4 @@
-import os,zipfile
+import os,zipfile,base64
 
 
 
@@ -9,11 +9,10 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])  # 允许上传的文件类型
 
 
 def main():
-    with zipfile.ZipFile("%s\%s" % (ZIP_FOLDER, 'test1.zip'), mode="w") as f:
-        for userfile in os.listdir(DOWNLOAD_FOLDER):
-            if userfile.rsplit('.', 1)[1] == 'png':
-                f.write("%s\%s" % (DOWNLOAD_FOLDER, userfile), userfile)
-                # os.remove("%s\%s" % (DOWNLOAD_FOLDER, userfile))
+    encodestr = base64.b64encode('123'.encode('utf-8'))
+    print(str(encodestr, 'utf-8'))
+    print(str(base64.b64decode(encodestr), 'utf-8'))
+    print(os.urandom(16))
 
 
 if __name__ == '__main__':

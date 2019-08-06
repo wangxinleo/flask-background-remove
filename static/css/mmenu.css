@@ -301,14 +301,14 @@ html.mm-blocking #mm-blocker
 .mm-is-menu li > a:hover,
 .mm-is-menu li > span:hover
 {
-	color:#00e4ff;
+	color:#333;
 	background:#fff;
 }
 .mm-menu li.mm-selected > a,
 .mm-menu li.mm-selected > span
 {
 	background:#fff;
-	color:#d87843;
+	color:#333;
 }
 .mm-menu li.mm-selected > a.mm-subopen
 {

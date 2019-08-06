@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, abort, redirect, url_for, session
-import os,zipfile,random
+# from flask_sqlalchemy import SQLAlchemy
+import os,zipfile,random,base64
 from werkzeug.utils import secure_filename
 from removebg import RemoveBg
 import PIL.Image as Image
 import shutil
 
 
-APIKEY = "5dJL3SSoTauGqBqZP38npuef"
+API_KEY = ""
 UPLOAD_FOLDER = '%s\\uploadFile' %os.getcwd()  # 上传路径
 DOWNLOAD_FOLDER = '%s\\static\\downloadFile' %os.getcwd()  # 下载路径
 ZIP_FOLDER = '%s\\static\\zipFile' %os.getcwd()  # 压缩路径
@@ -15,7 +16,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])  # 允许上传的文件类型
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = '1111111111'  # os.urandom(16)
+app.secret_key = 'I7\xcd\xadu_\xf2\x87\xe4\xca%)\xa5O)C'  # os.urandom(16)
 
 
 def allowed_file(filename):  # 验证上传文件是否符合要求
@@ -24,7 +25,21 @@ def allowed_file(filename):  # 验证上传文件是否符合要求
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if API_KEY == "":
+        keyExist = 0
+    else:
+        keyExist = 1
+    return render_template('index.html', keyExist=keyExist)
+
+
+@app.route('/key', methods=['POST'])
+def pushkey():
+    if request.method == 'POST':
+        global API_KEY
+        temp = request.form['key']
+        tempcode = base64.b64encode(temp.encode('utf-8'))
+        API_KEY = str(tempcode, 'utf-8')
+    return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -40,10 +55,22 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('index'))
+@app.route('/logout/<fileId>/<filename>')
+def logout(fileId,filename):
+    # session.pop('username', None)
+
+    for userfile in os.listdir(DOWNLOAD_FOLDER):
+        if str(fileId) == userfile[0:6]:
+            os.remove("%s\%s" % (DOWNLOAD_FOLDER, userfile))
+    for userzip in os.listdir(ZIP_FOLDER):
+        if str(fileId) == userzip[0:6]:
+            os.remove("%s\%s" % (ZIP_FOLDER, userzip))
+    for userimg in os.listdir(UPLOAD_FOLDER):
+        if str(fileId) == userimg[0:6]:
+            os.remove("%s\%s" % (UPLOAD_FOLDER, userimg))
+
+    return 'success'
+    # return redirect(url_for('index'))
 
 
 @app.route('/upload', methods=['POST', 'GET'])
@@ -68,7 +95,8 @@ def upload_file():
 
 @app.route('/drawing/<fileId>/<filename>')
 def drawing(fileId,filename):
-    rmbg = RemoveBg(APIKEY, "error.log")
+    key=str(base64.b64decode(API_KEY), 'utf-8')
+    rmbg = RemoveBg(key, "error.log")
     for pic in os.listdir(UPLOAD_FOLDER):
         if pic == filename:
             tempPic = pic.rsplit('.', 1)[0]
@@ -117,20 +145,20 @@ def drawing(fileId,filename):
 @app.route('/complete/<fileId>')
 def complete_json(fileId):
     # os.remove("%s\%s" % (UPLOAD_FOLDER, filename))
-    rejson = '{"status":200,"Message":"获取数据成功","Data":['
-    i = 0
     DataNum = 0
-    length = os.listdir(DOWNLOAD_FOLDER).__len__()
+    rejson = '{"status":200,"Message":"获取数据成功","Data":['
     for pic in os.listdir(DOWNLOAD_FOLDER):
-        i += 1
         if str(fileId) == pic[0:6]:
             DataNum += 1
             temp = ("%s\%s" % (DOWNLOAD_FOLDER, pic)).split('\\')
             imgPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
-            if length == i:
-                rejson += '{"filename":"'+pic[6:]+'","filepath":"'+imgPath+'"}'
-            else:
-                rejson += '{"filename":"' + pic[6:] + '","filepath":"' + imgPath + '"},'
+            rejson += '{"filename":"' + pic[6:] + '","filepath":"' + imgPath + '"},'
+    for tempZip in os.listdir(ZIP_FOLDER):
+        if str(fileId) == tempZip[0:6]:
+            DataNum += 1
+            temp = ("%s\%s" % (ZIP_FOLDER, tempZip)).split('\\')
+            zipPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
+            rejson += '{"filename":"' + tempZip[6:] + '","filepath":"' + zipPath + '"}'
     rejson += ']}'
     if DataNum != 0:
         return rejson

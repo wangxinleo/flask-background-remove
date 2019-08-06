@@ -27,7 +27,7 @@
     </div>
     <div class="htmleaf-container">
     		<header class="htmleaf-header">
-			<h1>您的图片已就绪，可点击下载 <span>如果您觉得我好用的话，记得分享给您的好朋友们哦~</span></h1>
+			<h1>您的图片已就绪，可点击下载 <span>为保护您的图片隐私安全，当您离开本页后，将会立即删除您的所有图片信息。请妥善保存好您需要的图片。</span></h1>
 {#			<div>#}
 {#				<a class="glyphicon glyphicon-star" href="#" title="yoJo博客" target="_blank">yoJo博客 </a>#}
 {#				<a class="glyphicon glyphicon-star" href="#" title="Github" target="_blank">Gtihub </a>#}
@@ -37,56 +37,9 @@
 {#			</div>#}
 		</header>
 		<div id="imgHtml" class="container gallery-container">
-
-		    <div class="tz-gallery">
-
-		        <div class="row">
-
-		            <div class="col-sm-6 col-md-4">
-		                <div class="thumbnail">
-		                    <a class="lightbox" href="/static/images/p5.jpg">
-		                        <img src="/static/images/p5.jpg" alt="Park">
-		                    </a>
-		                    <div class="caption">
-		                        <h3>Thumbnail label</h3>
-                                <a onclick="oDownLoad('/static/images/p5.jpg')" style="color: black"><i class="glyphicon glyphicon-save"></i>下载</a>
-
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-sm-6 col-md-4">
-		                <div class="thumbnail">
-		                    <a class="lightbox" href="/static/images/p5.jpg">
-		                        <img src="/static/images/p5.jpg" alt="Bridge">
-		                    </a>
-		                    <div class="caption">
-		                        <h3>Thumbnail label</h3>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-sm-6 col-md-4">
-		                <div class="thumbnail">
-		                    <a class="lightbox" href="/static/images/p5.jpg">
-		                        <img src="/static/images/p5.jpg" alt="Tunnel">
-		                    </a>
-		                    <div class="caption">
-		                        <h3>Thumbnail label</h3>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-sm-6 col-md-4">
-		                <div class="thumbnail">
-		                    <a class="lightbox" href="/static/images/p5.jpg">
-		                        <img src="/static/images/p5.jpg" alt="Coast">
-		                    </a>
-		                    <div class="caption">
-		                        <h3>Thumbnail label</h3>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-
-		    </div>
+            <div style="height: 650px">
+                <h1>对不起，尚未获取到您的图片信息，请返回 <a href="/" style="color: red">首页</a> 重新生成图片</h1>
+            </div>
 
 		</div>
     </div>
@@ -96,7 +49,7 @@
 <div class="contact" id="contact">
     <div class="footer">
         <div class="container">
-            <p class="copy">Copyright &copy; <a href="#" target="_blank" title="yoJo">yoJo</a>.Company name All rights reserved.</p>
+            <p class="copy">Copyright &copy; <a href="https://wangxinleo.cn" target="_blank" title="yoJo">yoJo</a>.All rights reserved.</p>
         </div>
             <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     </div>
@@ -118,7 +71,7 @@
 <script type="text/javascript" src="/static/js/baguetteBox.min.js"></script>
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
-    //showImg();
+    showImg();
 
 
 function showImg(){
@@ -140,13 +93,18 @@ function showImg(){
                    filename = data.Data[i].filename;
                    filepath = data.Data[i].filepath;
 
-                   imgHtml += '<div class="col-sm-6 col-md-4"><div class="thumbnail"><a class="lightbox" href="'+filepath+'"><img src="'+filepath+'" alt="Park"></a><div class="caption"><h3>'+filename+'</h3></div></div></div>';
+                   if(filename.indexOf("zip") !=-1){
+                       imgHtml += '<div class="col-sm-6 col-md-4"><div class="thumbnail"><a class="lightbox" href="/static/images/zip.jpg"><img src="/static/images/zip.jpg" alt="Park"></a><div class="caption"><h3>'+filename+'</h3><a id="'+filename+'" onclick="oDownLoad(\''+filename+'\',\''+filepath+'\')" style="color: black;cursor:pointer"><i class="glyphicon glyphicon-save"></i>打包下载</a></div></div></div>';
+                   }else{
+                       imgHtml += '<div class="col-sm-6 col-md-4"><div class="thumbnail"><a class="lightbox" href="'+filepath+'"><img src="'+filepath+'" alt="Park"></a><div class="caption"><h3>'+filename+'</h3><a id="'+filename+'" onclick="oDownLoad(\''+filename+'\',\''+filepath+'\')" style="color: black;cursor:pointer"><i class="glyphicon glyphicon-save"></i>下载</a></div></div></div>';
+
+                   }
                }
                imgHtml += '</div></div>';
                $('#imgHtml').html(imgHtml);
-                baguetteBox.run('.tz-gallery');
+               baguetteBox.run('.tz-gallery');
            }else{
-               alert('数据存取错误');
+               {#alert('数据存取错误');#}
            }
         },
         error:function (e) {
@@ -155,7 +113,7 @@ function showImg(){
 }
 
 
-//①判断浏览器类型
+//判断浏览器类型
 function myBrowser() {
 	var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
 	var isOpera = userAgent.indexOf("Opera") > -1;
@@ -179,7 +137,7 @@ function myBrowser() {
 	} //判断是否Edge浏览器
 }
 
-//②IE浏览器图片保存（IE其实用的就是window.open)
+//IE浏览器图片保存（用window.open)
 function SaveAs5(imgURL) {
 	var oPop = window.open(imgURL, "", "width=1, height=1, top=5000, left=5000");
 	for(; oPop.document.readyState != "complete";) {
@@ -189,19 +147,43 @@ function SaveAs5(imgURL) {
 	oPop.close();
 }
 
-//③下载函数（区分IE和非IE部分）
+//下载函数（区分IE和非IE部分）
 
-function oDownLoad(url) {
+function oDownLoad(name,url) {
 	if(myBrowser() === "IE" || myBrowser() === "Edge") {
 		//IE （浏览器）
 		SaveAs5(url);
 		console.log(1)
 	} else {
 		//!IE (非IE)
-		odownLoad.href = url;
-		odownLoad.download = "";
+        var link = document.getElementById(name);
+        $(link).attr("href", url);
+        $(link).attr("download", name);
 	}
 
+}
+
+
+window.onbeforeunload = function(){
+    var temp = window.location.href;
+    var tempArry = temp.split('/');
+    tempArry = tempArry.slice(-2);
+    var url = "/logout/"+tempArry[0]+"/"+tempArry[1];
+    
+    $.ajax({
+        type: "GET",
+        url:url,
+        dateType:"text",
+        success:function (data) {
+            
+        },
+        error:function (data) {
+            
+        }
+    })
+
+    var msg="为保护您的图片隐私安全，当您离开网页后，将会立即删除您的所有照片信息。再见。ヾ(￣▽￣)Bye~Bye~";
+    return msg;
 }
 
 </script>

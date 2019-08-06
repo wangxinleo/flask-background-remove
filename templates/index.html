@@ -19,8 +19,8 @@
 	    <nav id="menu">
 			<ul>
 				<li class="Selected"><a href="{{ url_for("index") }}">首页</a></li>
-				<li><a href="#contact" class="scroll">简介</a></li>
-				<li><a href="#contact" class="scroll">密钥申请</a></li>
+				<li><a href="#arrow" class="scroll">简介</a></li>
+{#				<li><a href="https://www.remove.bg/api" target="_blank" class="scroll">获取密钥</a></li>#}
 			</ul>
 		</nav>
 	   </div>
@@ -28,8 +28,12 @@
 	   <s> </s>
 	   <br/>	   <br/>	   <br/>
 	   <div class="container">
-{#			<a href="{{ url_for('login') }}" class="fa-btn btn-1" id="test2">测试链接1</a>#}
+           {% if keyExist == 1 %}
 			<button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#myModal">上传图片</button>
+           {% else %}
+            <button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#keyModal">填入密钥</button>
+           <p><a href="https://www.remove.bg/api" target="_blank" style="color: white;font-size: 15px;margin-left: 30px">获得密钥？</a></p>
+           {% endif %}
        </div>
 	   <div class="header_arrow">
 	      <a href="#arrow" class="scroll"><span> </span></a>
@@ -40,7 +44,8 @@
 	<div class="container">
 		<h2>RemoveBG是什么？</h2>
 		<span> </span>
-		<p>利用RemoveBG的人工智能算法帮您快速剔除所有有前景图片的背景，拥有堪比专业抠图大师的水平甚至超越人工处理图片的水准，整个过程仅需数秒的时间，领略AI魅力！</p>
+		<p>利用RemoveBG的人工智能算法帮您快速剔除所有有前景图片的背景，拥有堪比专业抠图大师的水平甚至超越人工处理图片的水准，整个过程仅需数秒的时间。</p>
+        <p>快速输出你需要的<i style="color: red">红</i>、<i style="color:blue;">蓝</i>、<i>白</i> 底证件照！</p>
 	</div>
 </div>
 <div class="create">
@@ -50,10 +55,11 @@
 	</div>
 </div>
 
+
 <div class="contact" id="contact">
     <div class="footer">
         <div class="container">
-            <p class="copy">Copyright &copy; <a href="#" target="_blank" title="yoJo">yoJo</a>.Company name All rights reserved.</p>
+            <p class="copy">Copyright &copy; <a href="https://wangxinleo.cn" target="_blank" title="yoJo">yoJo</a>.All rights reserved.</p>
         </div>
             <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     </div>
@@ -102,6 +108,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="keyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    填入密钥<span><a href="https://www.remove.bg/api" target="_blank" style="color: blue;font-size: 15px;margin-left: 30px">获得密钥？</a></span>
+                </h4>
+            </div>
+            <form action="{{ url_for("pushkey") }}" method=post enctype=multipart/form-data>
+            <div class="modal-body">
+                <input type="text" class="form-control" name="key" placeholder="密钥">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="static/js/jquery-1.11.1.min.js"></script>
@@ -154,6 +183,7 @@ $('#fupload').on("fileuploaded", function (event, data, previewId, index){
 $('#fupload').on('fileerror', function(event, data, msg) {
     alert("失败了");
 });
+
 
 
 </script>
