@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, abort, redirect, url_for, session
-# from flask_sqlalchemy import SQLAlchemy
-import os,zipfile,random,base64
+from flask_sqlalchemy import SQLAlchemy
+import os, zipfile, random, base64, uuid
 from werkzeug.utils import secure_filename
 from removebg import RemoveBg
 import PIL.Image as Image
@@ -17,11 +17,33 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])  # 允许上传的文件类型
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'I7\xcd\xadu_\xf2\x87\xe4\xca%)\xa5O)C'  # os.urandom(16)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://upGoremove:XPLcXx28L3zSNdd5@49.232.48.54:3306/upGoremove'
+
+# 设置下方这行code后，在每次请求结束后会自动提交数据库中的变动
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+db = SQLAlchemy(app)  # 实例化数据库对象，它提供访问Flask-SQLAlchemy的所有功能
+
+class dbKey(db.Model):
+    __tablename__ = 'UG_KEYBOX'
+    id = db.Column(db.Integer, primary_key=True)
+    Rkey = db.Column(db.String(32), unique=True)
+
+
+class dbMac(db.Model):
+    __tablename__ = 'UG_MACBOX'
+    id = db.Column(db.Integer, primary_key=True)
+    userMac = db.Column(db.String(32), unique=True)
 
 
 def allowed_file(filename):  # 验证上传文件是否符合要求
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+
+def get_mac_address():
+    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+    return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
 @app.route('/')
 def index():
@@ -29,6 +51,13 @@ def index():
         keyExist = 0
     else:
         keyExist = 1
+
+    temp = get_mac_address()
+    print(temp)
+    print(dbMac.query.filter_by(userMac=temp).first())
+    db_mac = dbMac(userMac=temp)
+    # db.session.add_all([db_mac])
+    # db.session.commit()
     return render_template('index.html', keyExist=keyExist)
 
 
