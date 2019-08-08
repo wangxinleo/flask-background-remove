@@ -18,7 +18,7 @@
 		</div>
 	    <nav id="menu">
 			<ul>
-				<li class="Selected"><a href="{{ url_for("index") }}">首页</a></li>
+				<li class="Selected"><a href="{{ url_for("main.index") }}">首页</a></li>
 				<li><a href="#arrow" class="scroll">简介</a></li>
 {#				<li><a href="https://www.remove.bg/api" target="_blank" class="scroll">获取密钥</a></li>#}
 			</ul>
@@ -30,6 +30,7 @@
 	   <div class="container">
            {% if keyExist == 1 %}
 			<button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#myModal">上传图片</button>
+            <p><a href="javascript:void(0);" data-toggle="modal" data-target="#keyModal" style="color: white;font-size: 15px;margin-left: 30px">更换密钥</a></p>
            {% else %}
             <button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#keyModal">填入密钥</button>
            <p><a href="https://www.remove.bg/api" target="_blank" style="color: white;font-size: 15px;margin-left: 30px">获得密钥？</a></p>
@@ -60,7 +61,7 @@
 <div class="contact" id="contact">
     <div class="footer">
         <div class="container">
-            <p class="copy">Copyright &copy; <a href="https://wangxinleo.cn" target="_blank" title="yoJo">yoJo</a>.All rights reserved.</p>
+            <p class="copy">REMOVEBACKGROUND FUNCTION MADE BY <a href="https://www.remove.bg">REMOVEBG</a> WEB DEVELOPMENT BY <a href="https://wangxinleo.cn">YOJO</a></p>
         </div>
             <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
     </div>
@@ -120,7 +121,7 @@
                     填入密钥<span><a href="https://www.remove.bg/api" target="_blank" style="color: blue;font-size: 15px;margin-left: 30px">获得密钥？</a></span>
                 </h4>
             </div>
-            <form action="{{ url_for("pushkey") }}" method=post enctype=multipart/form-data>
+            <form action="{{ url_for("main.pushkey") }}" method=post enctype=multipart/form-data>
             <div class="modal-body">
                 <input type="text" class="form-control" name="key" placeholder="密钥">
             </div>

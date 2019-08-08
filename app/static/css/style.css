@@ -138,8 +138,9 @@ body a{
 	transition: all 0.3s;
 }
 .btn-1 {
-	border: 2px solid #fff;
+	border: 2px solid #27AE61;
 	color: #fff;
+	background-color: #27AE61;
 }
 /* Button 1e */
 .btn-1e {
@@ -150,7 +151,7 @@ body a{
 	height: 0;
 	top: 50%;
 	left: 50%;
-	background:#d87843;
+	background:green;
 	opacity: 0;
 	-webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
 	-moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
@@ -629,7 +630,7 @@ p.copy{
 	font-size:1em;
 }
 p.copy a{
-	color:#d87843;
+	color:#27AE61;
 }
 p.copy a:hover{
 	text-decoration:none;
