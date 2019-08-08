@@ -25,7 +25,9 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 > 具体细节请浏览 [REMOVEBG/API](https://www.remove.bg/api)
 
 ### 为什么要花时间去研究这个？
+
 先来一张效果对比图
+
 ![showimg.png](https://i.loli.net/2019/08/08/WmQYRlArafdzKcu.png)
 
 对比之后明显发现，REMOVEBG API可以提供更丰满的图片效果。相比于一些抠图难度大的图片，REMOVEBG API可以更加帮助到设计师短时间完成自己的工作。
@@ -83,7 +85,7 @@ PC端
 ## 🛠️ 安装
 
 ### 本地试用
-1.下载并正确安装 [python ](https://www.python.org/)
+1.下载并正确安装 [python ](https://www.python.org/)和[pip3](https://pypi.org/project/pip/#files)
 
 2.[下载UpGoRemove_Flask](https://github.com/wangxinleo/UpGoRemove_Flask)，解压，进入解压目录
 
