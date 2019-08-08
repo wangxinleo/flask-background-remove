@@ -26,7 +26,7 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 
 ## 🗃 演示
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/show.gif)
+![show.gif](https://i.loli.net/2019/08/08/ulsbS64w3AGJNR1.gif)
 
 ## 🎨 界面
 
@@ -34,39 +34,39 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 
 PC端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_key.png)
+![pc_key.png](https://i.loli.net/2019/08/08/ZEHnwR1yW4aU9Xo.png)
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_index.png)
+![pc_index.png](https://i.loli.net/2019/08/08/BTDPdEzk5CL1NWw.png)
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_index2.png)
+![pc_index2.png](https://i.loli.net/2019/08/08/5K3OgqVcrthPAxp.png)
 
 移动端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/mobie_index.png)
+![mobie_index.png](https://i.loli.net/2019/08/08/xdeI5mMHcQXB17K.png)
 
 ### 处理完成
 
 PC端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_complete.png)
+![pc_complete.png](https://i.loli.net/2019/08/08/InPGwcZXBM5NqE2.png)
 
 移动端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/mobie_complete.png)
+![mobie_complete.png](https://i.loli.net/2019/08/08/T6Mrjb3sJg9m1CS.png)
 
 ### 错误页面
 
 PC端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_404.png)
+![pc_404.png](https://i.loli.net/2019/08/08/okfxKFCLsBnV8zU.png)
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/pc_ugerror.png)
+![pc_ugerror.png](https://i.loli.net/2019/08/08/eQmn8MjRt5bJ2Cv.png)
 
 移动端
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/mobie_404.png)
+![mobie_404.png](https://i.loli.net/2019/08/08/grb41LC9fFm5SxJ.png)
 
-![](https://github.com/wangxinleo/UpGoRemove_Flask/tree/master/app/static/images/mobie_ugerror.png)
+![mobie_ugerror.png](https://i.loli.net/2019/08/08/rEO9oJxqym2FYkH.png)
 
 ## 🛠️ 安装
 
