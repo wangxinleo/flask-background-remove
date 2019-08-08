@@ -24,6 +24,18 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 
 > 具体细节请浏览 [REMOVEBG/API](https://www.remove.bg/api)
 
+### 为什么要花时间去研究这个？
+先来一张效果对比图
+![showimg.png](https://i.loli.net/2019/08/08/WmQYRlArafdzKcu.png)
+
+对比之后明显发现，REMOVEBG API可以提供更丰满的图片效果。相比于一些抠图难度大的图片，REMOVEBG API可以更加帮助到设计师短时间完成自己的工作。
+
+最重要的。。网上那些智能抠图工具有着致命和繁琐的套路
+
+注册-->填信息-->收邮件-->打开邮箱-->确认邮件-->登录-->下载
+
+对不起，打扰了~我选择死亡~[手动滑稽]
+
 ## 🗃 演示
 
 ![show.gif](https://i.loli.net/2019/08/08/ulsbS64w3AGJNR1.gif)
