@@ -56,3 +56,7 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 ## 🙏 鸣谢
 
 * [remove-bg](https://github.com/remove-bg/go)：一个基于GO语言的removebg API
+
+## 🏘️ 社区
+
+* 欢迎加入B3LOG的小众开源社区，详情请看[这里](https://hacpai.com/article/1463025124998)
