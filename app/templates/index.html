@@ -20,7 +20,7 @@
 			<ul>
 				<li class="Selected"><a href="{{ url_for("main.index") }}">首页</a></li>
 				<li><a href="#arrow" class="scroll">简介</a></li>
-{#				<li><a href="https://www.remove.bg/api" target="_blank" class="scroll">获取密钥</a></li>#}
+				<li><a href="#updataTree" class="scroll">更新日志</a></li>
 			</ul>
 		</nav>
 	   </div>
@@ -28,12 +28,21 @@
 	   <s> </s>
 	   <br/>	   <br/>	   <br/>
 	   <div class="container">
-           {% if keyExist == 1 %}
+           {% if keyExist == 1 or keyExist == 2 %}
 			<button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#myModal">上传图片</button>
-            <p><a href="javascript:void(0);" data-toggle="modal" data-target="#keyModal" style="color: white;font-size: 15px;margin-left: 30px">更换密钥</a></p>
+            <p>
+                {% if keyExist == 2 %}
+                    体验密钥可用次数还剩： {{ count }} 次
+                {% endif %}
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#keyModal" style="color: white;font-size: 15px;margin-left: 30px">更换密钥</a>
+            </p>
+
            {% else %}
             <button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#keyModal">填入密钥</button>
-           <p><a href="https://www.remove.bg/api" target="_blank" style="color: white;font-size: 15px;margin-left: 30px">获得密钥？</a></p>
+           <p>
+               <a href="https://www.remove.bg/api" target="_blank" style="color: white;font-size: 15px;margin-left: 30px">获得密钥？</a>
+               <a href="{{ url_for('main.guest') }}" style="color: white;font-size: 15px;margin-left: 30px">使用免密钥体验版</a>
+           </p>
            {% endif %}
        </div>
 	   <div class="header_arrow">
@@ -56,7 +65,98 @@
 		<button type="button" class="layui-btn " style="display:none;" id="testListAction">开始上传</button>
 	</div>
 </div>
-
+<div class="introduct" id="updataTree">
+	<div class="container">
+		<h2>UpGoRemove更新日志</h2>
+		<span> </span>
+    </div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-09：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.新增3种图片格式['jfif', 'pjpeg', 'pjp']<br>2.增加体验模式，免密钥使用全部功能</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-08：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.使用蓝图重构项目结构<br>2.上传演示文件<br>3.更新描述图片、依赖及项目说明<br>4.github发布v0.1试用版本</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-07：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.修改了项目名称，更名为UPGOMOVE<br>2.尝试引入mysql数据库以及尝试解决密钥限制问题</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-06：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.新增用户自备密钥模态窗口，用户可以使用自己的密钥使用本应用<br>2.保护用户隐私，退出图片下载页后会立即执行删除代理删除用户图片</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-05：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">修复多浏览器对图片链接只执行浏览不执行下载的问题</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-03：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.更新上载框架，优化图片处理逻辑<br>2.完成图片长廊模块，图像处理结束后会传递到图像长廊，方便用户自由下载已完成图片</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-02：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.图片上传后可以返回下载链接到本地<br>2.修改了上传控件，选用了bootstrap-fileinput</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-08-01：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.index首页布局完成<br>2.背景删除逻辑完成，已经可以成功输出无背景图片<br>3.修复依赖漏洞，提升应用安全性</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-07-31：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">新增依赖文件描述，方便一键导入依赖</p>
+        </div>
+	</div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-07-30：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">完成文件上传模块</p>
+        </div>
+    </div>
+</div>
+<div class="create">
+	<div class="container">
+		<a href="#" id="back-to-top" class="fa-btn btn-1 btn-1e">我要上传</a>
+		<button type="button" class="layui-btn " style="display:none;" id="testListAction">开始上传</button>
+	</div>
+</div>
 
 <div class="contact" id="contact">
     <div class="footer">
@@ -93,7 +193,7 @@
 {#            </form>#}
             <div class="modal-body">
                 <ul>
-                    <li>目前上传的图片仅支持jpg/png/jpeg等三种格式</li>
+                    <li>目前上传的图片支持['png', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp']等格式</li>
                 </ul>
                 <input id="fupload" type="file" class="file" name="file"/>
             </div>
@@ -153,7 +253,7 @@
 $("#fupload").fileinput({
     language: 'zh', //设置语言
     uploadUrl:"/upload", //上传的地址
-    allowedFileExtensions: ['jpg', 'jpeg', 'png'],//接收的文件后缀
+    allowedFileExtensions: ['png', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp'],//接收的文件后缀
     uploadAsync: true, //默认异步上传
     showUpload:true, //是否显示上传按钮
     showRemove :true, //显示移除按钮

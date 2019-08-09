@@ -9,7 +9,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])  # 允许上传的文件类型
 
 
 def main():
-    encodestr = base64.b64encode('123'.encode('utf-8'))
+    encodestr = base64.b64encode('CneSmTqQudNykrXMPwqhJr11'.encode('utf-8'))
     print(str(encodestr, 'utf-8'))
     print(str(base64.b64decode(encodestr), 'utf-8'))
     print(os.urandom(16))

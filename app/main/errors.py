@@ -18,4 +18,8 @@ def internal_server_error(e):
 
 @main.errorhandler(401)
 def page_not_found(e):
-    return render_template('upError.html'), 401
+    return render_template('401.html'), 401
+
+@main.errorhandler(403)
+def page_not_found(e):
+    return render_template('upError.html'), 403

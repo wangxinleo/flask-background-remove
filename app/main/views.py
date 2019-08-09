@@ -8,43 +8,54 @@ import shutil
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, request, abort, current_app
 from . import main
-
-
-# class dbKey(db.Model):
-#     __tablename__ = 'UG_KEYBOX'
-#     id = db.Column(db.Integer, primary_key=True)
-#     Rkey = db.Column(db.String(32), unique=True)
-#
-#
-# class dbMac(db.Model):
-#     __tablename__ = 'UG_MACBOX'
-#     id = db.Column(db.Integer, primary_key=True)
-#     userMac = db.Column(db.String(32), unique=True)
+from .models import dbKey
+from app import sqlalchemy
 
 
 def allowed_file(filename):  # 验证上传文件是否符合要求
     return '.' in filename and filename.rsplit('.', 1)[1] in current_app.config.get('ALLOWED_EXTENSIONS')
 
 
-# def get_mac_address():  # 获取mac地址
-#     mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-#     return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
+def get_mac_address():  # 获取mac地址
+    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+    return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
 
 @main.route('/')
 def index():
-    if current_app.config.get('API_KEY') == "":
+    if current_app.config.get('API_KEY') == "" or current_app.config.get('KEYEXIST') == 0:  # 无密钥
         keyExist = 0
-    else:
+    elif current_app.config.get('KEYEXIST') == 2:  # 体验用户
+        keyExist = 2
+    else:  # 有私钥
         keyExist = 1
+    return render_template('index.html', keyExist=keyExist, count=current_app.config.get('UPGOREMOVE_COUNT'))
 
-    # temp = get_mac_address()
-    # print(temp)
-    # print(dbMac.query.filter_by(userMac=temp).first())
-    # db_mac = dbMac(userMac=temp)
+
+@main.route('/guest')
+def guest():
+    keybox = dbKey.query.all()
+    count = 0
+    for i in keybox:
+        key = i.Rkey
+        num = i.num
+        if num > 0 and current_app.config['API_KEY'] == "":
+            current_app.config['API_KEY'] = key
+            current_app.config['KEYEXIST'] = 2
+            keyExist = 2
+            count += num
+        else:
+            count += num
+    current_app.config['UPGOREMOVE_COUNT'] = count
+    try:
+        if keyExist:
+            return render_template('index.html', keyExist=keyExist, count=count)
+        return '没有足够的密钥了'
+    except:
+        abort(401)
+
     # db.session.add_all([db_mac])
     # db.session.commit()
-    return render_template('index.html', keyExist=keyExist)
 
 
 @main.route('/key', methods=['POST'])
@@ -71,7 +82,7 @@ def login():
 
 
 @main.route('/logout/<fileId>/<filename>')
-def logout(fileId,filename):
+def logout(fileId, filename):
     # session.pop('username', None)
 
     for userfile in os.listdir(current_app.config.get('DOWNLOAD_FOLDER')):
@@ -109,7 +120,7 @@ def upload_file():
 
 
 @main.route('/drawing/<fileId>/<filename>')
-def drawing(fileId,filename):
+def drawing(fileId, filename):
     key=str(base64.b64decode(current_app.config.get('API_KEY')), 'utf-8')
     rmbg = RemoveBg(key, "error.log")
     for pic in os.listdir(current_app.config.get('UPLOAD_FOLDER')):
@@ -118,6 +129,12 @@ def drawing(fileId,filename):
             url = "%s\%s" % (current_app.config.get('UPLOAD_FOLDER'), filename)
             rmbg.remove_background_from_img_file(url)
 
+            # 更新存储量
+            dbtempKey = dbKey.query.filter_by(Rkey=current_app.config.get('API_KEY')).first()
+            dbtempKey.num = dbtempKey.num - 1
+            sqlalchemy.session.commit()
+
+            # 更换底色
             oldImg = url + "_no_bg.png"
             newImg = "%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + ".png")
             try:
@@ -145,10 +162,6 @@ def drawing(fileId,filename):
                         if userfile.rsplit('.', 1)[1] == 'png':
                             f.write("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile), userfile)
 
-                #             os.remove("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile))
-
-                # return redirect(url_for('static', filename="zipFile/{}".format(tempPic + ".zip")))
-
                 return redirect(url_for('main.complete_file', filename=filename, fileId=fileId))
             except FileNotFoundError:
                 for userimg in os.listdir(current_app.config.get('UPLOAD_FOLDER')):
@@ -159,30 +172,6 @@ def drawing(fileId,filename):
             continue
         return abort(401)
     return abort(401)
-
-
-@main.route('/complete/<fileId>')
-def complete_json(fileId):
-    # os.remove("%s\%s" % (current_app.config.get('UPLOAD_FOLDER'), filename))
-    DataNum = 0
-    rejson = '{"status":200,"Message":"获取数据成功","Data":['
-    for pic in os.listdir(current_app.config.get('DOWNLOAD_FOLDER')):
-        if str(fileId) == pic[0:6]:
-            DataNum += 1
-            temp = ("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), pic)).split('\\')
-            imgPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
-            rejson += '{"filename":"' + pic[6:] + '","filepath":"' + imgPath + '"},'
-    for tempZip in os.listdir(current_app.config.get('ZIP_FOLDER')):
-        if str(fileId) == tempZip[0:6]:
-            DataNum += 1
-            temp = ("%s\%s" % (current_app.config.get('ZIP_FOLDER'), tempZip)).split('\\')
-            zipPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
-            rejson += '{"filename":"' + tempZip[6:] + '","filepath":"' + zipPath + '"}'
-    rejson += ']}'
-    if DataNum != 0:
-        return rejson
-    else:
-        return '{"status":400,"Message":"获取数据失败"}'
 
 
 @main.route('/complete/<fileId>/<filename>')

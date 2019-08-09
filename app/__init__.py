@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 from config import config
 
+
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
 sqlalchemy = SQLAlchemy()
+
 
 def create_app(config_name):
     '''程序的工厂函数'''

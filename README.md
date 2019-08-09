@@ -18,7 +18,7 @@
 
 从照片中删除背景是一项繁琐的任务 ，就算是专业的设计师，使用最专业的软件，也需要花费大量时间去处理图片细节问题。
 
-使用[UPGOREMOVE](https://github.com/wangxinleo/UpGoRemove_Flask)，您可以在5秒内自动100％剪切任何图像，直接下载即可。
+使用[UPGOREMOVE](https://github.com/wangxinleo/UpGoRemove_Flask)，您可以在5秒内自动100％剪切任何图像，不需要进一步输入：没有选择像素，没有标记人，什么都没有。
 
 UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删除背景的API接口，就算不了解人工智能，也能通过它提供的接口实现个人开发需求。
 
