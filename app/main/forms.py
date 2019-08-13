@@ -11,13 +11,13 @@ def complete_json(fileId):
     for pic in os.listdir(current_app.config.get('DOWNLOAD_FOLDER')):
         if str(fileId) == pic[0:6]:
             DataNum += 1
-            temp = ("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), pic)).split('\\')
+            temp = ("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), pic)).split('/')
             imgPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
             rejson += '{"filename":"' + pic[6:] + '","filepath":"' + imgPath + '"},'
     for tempZip in os.listdir(current_app.config.get('ZIP_FOLDER')):
         if str(fileId) == tempZip[0:6]:
             DataNum += 1
-            temp = ("%s\%s" % (current_app.config.get('ZIP_FOLDER'), tempZip)).split('\\')
+            temp = ("%s/%s" % (current_app.config.get('ZIP_FOLDER'), tempZip)).split('/')
             zipPath = '/'+temp[-3]+'/'+temp[-2]+'/'+temp[-1]
             rejson += '{"filename":"' + tempZip[6:] + '","filepath":"' + zipPath + '"}'
     rejson += ']}'

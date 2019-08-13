@@ -39,7 +39,7 @@ def guest():
     for i in keybox:
         key = i.Rkey
         num = i.num
-        if num > 0 and current_app.config['API_KEY'] == "":
+        if num > 0:
             current_app.config['API_KEY'] = key
             current_app.config['KEYEXIST'] = 2
             keyExist = 2
@@ -49,6 +49,7 @@ def guest():
     current_app.config['UPGOREMOVE_COUNT'] = count
     try:
         if keyExist:
+            # return redirect(url_for('index', ))
             return render_template('index.html', keyExist=keyExist, count=count)
         return '没有足够的密钥了'
     except:
@@ -87,13 +88,14 @@ def logout(fileId, filename):
 
     for userfile in os.listdir(current_app.config.get('DOWNLOAD_FOLDER')):
         if str(fileId) == userfile[0:6]:
-            os.remove("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile))
+            os.remove("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile))
     for userzip in os.listdir(current_app.config.get('ZIP_FOLDER')):
         if str(fileId) == userzip[0:6]:
-            os.remove("%s\%s" % (current_app.config.get('ZIP_FOLDER'), userzip))
+            os.remove("%s/%s" % (current_app.config.get('ZIP_FOLDER'), userzip))
     for userimg in os.listdir(current_app.config.get('UPLOAD_FOLDER')):
         if str(fileId) == userimg[0:6]:
-            os.remove("%s\%s" % (current_app.config.get('UPLOAD_FOLDER'), userimg))
+            os.remove("%s/%s" % (current_app.config.get('UPLOAD_FOLDER'), userimg))
+    current_app.config['KEYEXIST'] = 0
 
     return 'success'
     # return redirect(url_for('index'))
@@ -126,47 +128,48 @@ def drawing(fileId, filename):
     for pic in os.listdir(current_app.config.get('UPLOAD_FOLDER')):
         if pic == filename:
             tempPic = pic.rsplit('.', 1)[0]
-            url = "%s\%s" % (current_app.config.get('UPLOAD_FOLDER'), filename)
+            url = "%s/%s" % (current_app.config.get('UPLOAD_FOLDER'), filename)
             rmbg.remove_background_from_img_file(url)
 
             # 更新存储量
             dbtempKey = dbKey.query.filter_by(Rkey=current_app.config.get('API_KEY')).first()
             dbtempKey.num = dbtempKey.num - 1
+            current_app.config['UPGOREMOVE_COUNT'] = current_app.config['UPGOREMOVE_COUNT'] -1
             sqlalchemy.session.commit()
 
             # 更换底色
             oldImg = url + "_no_bg.png"
-            newImg = "%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + ".png")
+            newImg = "%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + ".png")
             try:
                 shutil.move(oldImg, newImg)
                 im = Image.open(newImg)
                 x, y = im.size
                 p = Image.new('RGBA', im.size, (255, 255, 255))
                 p.paste(im, (0, 0, x, y), im)
-                p.save("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_white.png'))
+                p.save("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_white.png'))
 
                 im = Image.open(newImg)
                 x, y = im.size
                 p = Image.new('RGBA', im.size, (0, 0, 255))
                 p.paste(im, (0, 0, x, y), im)
-                p.save("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_blue.png'))
+                p.save("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_blue.png'))
 
                 im = Image.open(newImg)
                 x, y = im.size
                 p = Image.new('RGBA', im.size, (255, 0, 0))
                 p.paste(im, (0, 0, x, y), im)
-                p.save("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_red.png'))
+                p.save("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), tempPic + '_red.png'))
 
-                with zipfile.ZipFile("%s\%s" % (current_app.config.get('ZIP_FOLDER'), tempPic + '.zip'), mode="w") as f:
+                with zipfile.ZipFile("%s/%s" % (current_app.config.get('ZIP_FOLDER'), tempPic + '.zip'), mode="w") as f:
                     for userfile in os.listdir(current_app.config.get('DOWNLOAD_FOLDER')):
                         if userfile.rsplit('.', 1)[1] == 'png':
-                            f.write("%s\%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile), userfile)
+                            f.write("%s/%s" % (current_app.config.get('DOWNLOAD_FOLDER'), userfile), userfile)
 
                 return redirect(url_for('main.complete_file', filename=filename, fileId=fileId))
             except FileNotFoundError:
                 for userimg in os.listdir(current_app.config.get('UPLOAD_FOLDER')):
                     if str(fileId) == userimg[0:6]:
-                        os.remove("%s\%s" % (current_app.config.get('UPLOAD_FOLDER'), userimg))
+                        os.remove("%s/%s" % (current_app.config.get('UPLOAD_FOLDER'), userimg))
                 return render_template('upError.html')
         else:
             continue

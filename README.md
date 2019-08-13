@@ -38,6 +38,9 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 
 对不起，打扰了~我选择死亡~[手动滑稽]
 
+## 🗃 示例地址
+[REMOVEBG_http://removebg.wangxinleo.cn/](http://removebg.wangxinleo.cn/)
+
 ## 🗃 演示
 
 ![show.gif](https://i.loli.net/2019/08/08/ulsbS64w3AGJNR1.gif)
@@ -85,7 +88,7 @@ PC端
 ## 🛠️ 安装
 
 ### 本地试用
-1.下载并正确安装 [python ](https://www.python.org/)和[pip3](https://pypi.org/project/pip/#files)
+1.下载并正确安装 [python ](https://www.python.org/)、[pip3](https://pypi.org/project/pip/#files)、mysql
 
 2.[下载UpGoRemove_Flask](https://github.com/wangxinleo/UpGoRemove_Flask)，解压，进入解压目录
 
@@ -94,7 +97,15 @@ PC端
 pip install -r requirements.txt
 ```
 
-4.运行项目主程序，不要关掉黑色窗口
+4.在mysql中运行sql文件夹下的upGoremove.sql文件 创建数据库
+
+5.更改config.py中关于 SQLALCHEMY_DATABASE_URI的值，指向自己的数据库
+
+```
+ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://用户名:密码@数据库地址:3306/upGoremove'
+```
+
+6.运行项目主程序，不要关掉黑色窗口
 ```
 python manage.py
 ```
