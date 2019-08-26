@@ -14,7 +14,7 @@ class Config:  # 通用配置
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp'])  # 允许上传的文件类型
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'I7\xcd\xadu_\xf2\x87\xe4\xca%)\xa5O)C'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True  # 设置是否在每次连接结束后自动提交数据库中的变动
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://upGoremove:xxxxxx@49.232.48.54:3306/upGoremove'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://upGoremove:xxxxxxxxxxxxx@49.232.48.54:3306/upGoremove'
     FLASKY_MAIL_SUBJECT_PREFIX = '[UpGoRemove]'  # 集成邮件功能，这个类似于主题概要的意思，但不是主题，只是在主题前面加个修饰前缀
     FLASKY_MAIL_SENDER = 'UpGoRemove Admin <UpGoRemove@example.com>'  # 这个是发件人，而<>前面的内容，实际上就相当于昵称的作用
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'wangxinleo'
