@@ -23,13 +23,26 @@ def get_mac_address():  # 获取mac地址
 
 @main.route('/')
 def index():
-    if current_app.config.get('API_KEY') == "" or current_app.config.get('KEYEXIST') == 0:  # 无密钥
-        keyExist = 0
-    elif current_app.config.get('KEYEXIST') == 2:  # 体验用户
-        keyExist = 2
-    else:  # 有私钥
-        keyExist = 1
-    return render_template('index.html', keyExist=keyExist, count=current_app.config.get('UPGOREMOVE_COUNT'))
+    keybox = dbKey.query.all()
+    count = 0
+    if not (keybox.__repr__()):  # 无密钥
+        keyExist = 0  # 显示状态
+    else:  # 数据库有密钥
+        for i in keybox:
+            key = i.Rkey
+            num = i.num
+            if num > 0:
+                current_app.config['API_KEY'] = key
+                keyExist = 2  # 显示状态
+                count += num
+            else:
+                count += num
+        current_app.config['UPGOREMOVE_COUNT'] = count
+
+    if count > 0 :
+        return render_template('index.html', keyExist=keyExist, count=current_app.config.get('UPGOREMOVE_COUNT'))
+    else:
+        return render_template('index.html', keyExist=0, count=0)
 
 
 @main.route('/guest')
@@ -63,9 +76,13 @@ def guest():
 def pushkey():
     if request.method == 'POST':
         # global API_KEY
-        temp = request.form['key']
-        tempcode = base64.b64encode(temp.encode('utf-8'))
-        current_app.config['API_KEY'] = str(tempcode, 'utf-8')
+        tempkey = request.form['key']
+        tempnum = request.form['num']
+        tempcode = base64.b64encode(tempkey.encode('utf-8'))
+        insertKey = dbKey(Rkey=tempcode,num=int(tempnum))
+        sqlalchemy.session.add(insertKey)
+        sqlalchemy.session.commit()
+
     return redirect(url_for('main.index'))
 
 

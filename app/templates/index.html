@@ -31,17 +31,20 @@
            {% if keyExist == 1 or keyExist == 2 %}
 			<button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#myModal">上传图片</button>
             <p>
-{#                {% if keyExist == 2 %}#}
-{#                    体验密钥可用次数还剩： {{ count }} 次#}
-{#                {% endif %}#}
-                <a href="javascript:void(0);" data-toggle="modal" data-target="#keyModal" style="color: white;font-size: 15px;margin-left: 30px">更换密钥</a>
+                {% if keyExist == 2 %}
+                    密钥次数还剩： {{ count }} 次
+                {% endif %}
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#keyModal" style="color: white;font-size: 15px;margin-left: 30px">添加密钥</a>
             </p>
 
            {% else %}
             <button class="fa-btn btn-1 btn-1e " data-toggle="modal" data-target="#keyModal">填入密钥</button>
            <p>
+                {% if count == 0 %}
+                    数据库中密钥不可用，请添加密钥
+                {% endif %}
                <a href="https://www.remove.bg/api" target="_blank" style="color: white;font-size: 15px;margin-left: 30px">获得密钥？</a>
-               <a href="{{ url_for('main.guest') }}" style="color: white;font-size: 15px;margin-left: 30px">使用免密钥体验版</a>
+{#               <a href="{{ url_for('main.guest') }}" style="color: white;font-size: 15px;margin-left: 30px">使用免密钥体验版</a>#}
            </p>
            {% endif %}
        </div>
@@ -70,6 +73,14 @@
 		<h2>UpGoRemove更新日志</h2>
 		<span> </span>
     </div>
+    <div class="container">
+        <div class="col-xs-4">
+            <p>2019-09-17：</p>
+        </div>
+        <div class="col-xs-8">
+            <p class="text-left">1.修复填入私钥无法跳转进服务页面的bug（感谢a675286277的issue）<br>2.优化跳转逻辑，删除体验按钮，更加适合私人搭建</p>
+        </div>
+	</div>
     <div class="container">
         <div class="col-xs-4">
             <p>2019-08-13：</p>
@@ -231,7 +242,10 @@
             </div>
             <form action="{{ url_for("main.pushkey") }}" method=post enctype=multipart/form-data>
             <div class="modal-body">
-                <input type="text" class="form-control" name="key" placeholder="密钥">
+                <lable>密钥：</lable>
+                <input type="text" class="form-control" name="key" placeholder="例：vamVjdC9weXRob24vYXV4c3lzX3d6L2F">
+                <lable>剩余次数：</lable>
+                 <input type="text" class="form-control" name="num" placeholder="例：50">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
