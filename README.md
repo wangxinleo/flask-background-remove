@@ -97,8 +97,17 @@ PC端
 pip install -r requirements.txt
 ```
 
-4.在mysql中运行sql文件夹下的upGoremove.sql文件 创建数据库
-
+4.在mysql中运行sql文件夹下的upGoremove.sql文件
+    
+- 4-1创建数据库
+    - 数据库的字符集选择utf8mb4,字符集校对选择utf8mb4_general_cil
+    
+    ![image.png](https://i.loli.net/2019/09/18/yfNL1q6pB4V75vt.png)
+- 4-2运行sql脚本
+    - 注意选择正确的字符集
+    
+    ![image.png](https://i.loli.net/2019/09/18/KWTfupn8jX46Lqg.png)
+    
 5.更改config.py中关于 SQLALCHEMY_DATABASE_URI的值，指向自己的数据库
 
 ```
