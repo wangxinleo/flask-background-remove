@@ -43,7 +43,7 @@ UPGOREMOVE 基于[REMOVEBG](https://www.remove.bg)，它有偿提供了自动删
 
 ## 🗃 演示
 
-![show.gif](https://i.loli.net/2019/08/08/ulsbS64w3AGJNR1.gif)
+![show.gif](http://i.loli.net/2019/08/08/ulsbS64w3AGJNR1.gif)
 
 ## 🎨 界面
 
