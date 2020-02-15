@@ -1,4 +1,4 @@
-# UpGoRemove_Flask
+# UpGoRemove_Flask (停止维护)
 <p align = "center">
 
 <img src="https://www.remove.bg/images/samples/combined/s5.jpg" />
