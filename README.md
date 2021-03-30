@@ -1,4 +1,4 @@
-# UpGoRemove_Flask (停止维护)
+# flask-background-remove
 <p align = "center">
 
 <img src="https://www.remove.bg/images/samples/combined/s5.jpg" />
